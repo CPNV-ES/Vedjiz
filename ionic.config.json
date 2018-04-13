@@ -1,0 +1,8 @@
+{
+  "name": "vedjiz",
+  "app_id": "e723d7c7",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
