@@ -9,7 +9,7 @@ export class Supplier extends User {
   companyName: string;
 
   constructor(firstName: string, lastName: string, phone: string, address: string, companyName: string) {
-    super(firstName, lastName, phone, address);
+    super(firstName, lastName, phone, address); // invoke base class's constructor
     this.companyName = companyName;
   }
 }
