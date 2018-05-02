@@ -2,7 +2,7 @@
  * Created by Xavier on 01.05.18.
  */
 
-import {User} from 'User.ts'
+import { User } from './User'
 
 export class Supplier extends User {
 

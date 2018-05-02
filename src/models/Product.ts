@@ -1,7 +1,7 @@
 /**
  * Created by Xavier on 01.05.18.
  */
-import {Supplier} from 'Supplier.ts'
+import {Supplier} from './Supplier'
 
 export class Product {
 
@@ -12,12 +12,18 @@ export class Product {
   imageFileName: string;
   suppliers: Supplier[];
 
+
   constructor(productName: string, price: number, unit: string, stock: number, imageFileName: string) {
     this.productName = productName;
     this.price = price;
     this.unit = unit;
     this.stock = stock;
     this.imageFileName = imageFileName;
+    this.suppliers = [];
+  }
+
+  addSupplier (sup: Supplier) {
+    this.suppliers.push(sup);
   }
 
 }
