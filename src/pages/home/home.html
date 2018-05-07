@@ -8,11 +8,12 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    {{ product.suppliers[0].firstName }}
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  Mangez des {{ product.productName }}, c'est bon pour la santé
+  <img src="assets/imgs/{{ product.imageFileName }}" /><br />
+  <h3>Fournisseurs</h3>
+  <ion-list *ngIf="product.suppliers != null">
+    <ion-item *ngFor="let supplier of product.suppliers">
+      {{ supplier.companyName }}
+    </ion-item>
+  </ion-list>
 </ion-content>
