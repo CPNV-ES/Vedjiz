@@ -3,17 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Vedjiz</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  Mangez des {{ product.productName }}, c'est bon pour la santé
-  <img src="assets/imgs/{{ product.imageFileName }}" /><br />
-  <h3>Fournisseurs</h3>
-  <ion-list *ngIf="product.suppliers != null">
-    <ion-item *ngFor="let supplier of product.suppliers">
-      {{ supplier.companyName }}
+  <ion-list *ngIf="products != null">
+    <ion-item *ngFor="let product of products" (click)="openProduct(product)">
+      {{ product.productName }} ({{ product.price }} chf/{{ product.unit }})
     </ion-item>
   </ion-list>
 </ion-content>
