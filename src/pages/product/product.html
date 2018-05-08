@@ -10,7 +10,11 @@
 <ion-content padding>
   <h3>{{ product.productName }}</h3>
   <img src="assets/imgs/{{ product.imageFileName }}" /><br />
-  {{ product.price }} chf/{{ product.unit }}
+  <ion-label stacked>Prix</ion-label>
+  <ion-input type="number" step="0.01" [ngModel]="product.price"></ion-input>
+
+  <ion-label stacked>Unité</ion-label>
+  <ion-input type="text" [ngModel]="product.unit"></ion-input>
   <h4>Fournisseur</h4>
   <ion-list *ngIf="product.suppliers.length > 0">
     <ion-item *ngFor="let supplier of product.suppliers">
