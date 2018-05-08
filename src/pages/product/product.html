@@ -8,5 +8,14 @@
 </ion-header>
 
 <ion-content padding>
-  <p>{{ product.productName }}</p>
+  <h3>{{ product.productName }}</h3>
+  <img src="assets/imgs/{{ product.imageFileName }}" /><br />
+  {{ product.price }} chf/{{ product.unit }}
+  <h4>Fournisseur</h4>
+  <ion-list *ngIf="product.suppliers.length > 0">
+    <ion-item *ngFor="let supplier of product.suppliers">
+      {{ supplier.companyName }}
+    </ion-item>
+  </ion-list>
+  <p *ngIf="product.suppliers.length == 0">Aucun fournisseur</p>
 </ion-content>
