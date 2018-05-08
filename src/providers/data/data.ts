@@ -29,8 +29,4 @@ export class DataProvider {
   getProducts() {
     return this.products
   }
-
-  getFirstProduct() {
-    return this.products[0]
-  }
 }
