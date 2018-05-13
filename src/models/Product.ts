@@ -10,15 +10,17 @@ export class Product {
   unit: string;           // typically: kg, piece, 100g
   stock: number;          // number of units
   imageFileName: string;
+  image64: string;        // base64 encoded image
   suppliers: Supplier[];  // Who's providing the stuff
 
 
-  constructor(productName: string, price: number, unit: string, stock: number, imageFileName: string) {
+  constructor(productName: string, price: number, unit: string, stock: number, imageFileName: string, image64: string) {
     this.productName = productName;
     this.price = price;
     this.unit = unit;
     this.stock = stock;
     this.imageFileName = imageFileName;
+    this.image64 = image64;
     this.suppliers = []; // must be done to avoid a push on null
   }
 

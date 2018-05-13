@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Product } from '../../models/Product';
-import { Supplier } from '../../models/Supplier';
+import { DataProvider } from "../../providers/data/data";
+import {VegetabledetailsPage} from "../vegetabledetails/vegetabledetails";
 
 @Component({
   selector: 'page-home',
@@ -9,13 +10,14 @@ import { Supplier } from '../../models/Supplier';
 })
 export class HomePage {
 
-  product: Product;
+  products: Product[];
 
-  constructor(public navCtrl: NavController) {
+  constructor(private dataProvider : DataProvider, public navCtrl: NavController) {
     // Temporary: hardcoded default values
-    this.product = new Product('Tomates', 2.3, 'kg', 12, 'tomatoes.jpg');
-    this.product.addSupplier(new Supplier('Louis','Corbaz','0123456','Ch. du chêne 8','Corbaz SA'));
-    this.product.addSupplier(new Supplier('Charles','Dumont','2346282','Ch. du peuplier 12','Dumont et fils'));
+    this.products = this.dataProvider.getAllProducts();
   }
 
+  public viewDetails(product){
+    this.navCtrl.push(VegetabledetailsPage, { product : product});
+  }
 }
