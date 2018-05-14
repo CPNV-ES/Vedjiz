@@ -21,6 +21,13 @@ export class ProductPage {
     this.initForm()
   }
 
+  save() {
+    this.product.price = this.productForm.controls.price.value
+    this.product.unit = this.productForm.controls.unit.value
+    this.product.stock = this.productForm.controls.stock.value
+    this.initForm()
+  }
+
   ionViewCanLeave() {
     return !this.productForm.dirty
   }
@@ -28,7 +35,8 @@ export class ProductPage {
   initForm() {
     this.productForm = this.formBuilder.group({
       price: [this.product.price],
-      unit: [this.product.unit]
+      unit: [this.product.unit],
+      stock: [this.product.stock]
     });
   }
 }
