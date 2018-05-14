@@ -14,10 +14,21 @@ export class ProductPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
     this.product = navParams.get('product')
+    this.initForm()
+  }
 
+  cancel() {
+    this.initForm()
+  }
+
+  ionViewCanLeave() {
+    return !this.productForm.dirty
+  }
+
+  initForm() {
     this.productForm = this.formBuilder.group({
-      price: [''],
-      unit: ['']
+      price: [this.product.price],
+      unit: [this.product.unit]
     });
   }
 }

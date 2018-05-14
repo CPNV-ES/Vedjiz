@@ -13,14 +13,14 @@
 
   <form [formGroup]="productForm">
     <ion-label stacked>Prix</ion-label>
-    <ion-input formControlName="price" type="number" step="0.01" [ngModel]="product.price"></ion-input>
+    <ion-input formControlName="price" type="number" step="0.01"></ion-input>
   
     <ion-label stacked>Unité</ion-label>
-    <ion-input formControlName="unit" type="text" [ngModel]="product.unit"></ion-input>
+    <ion-input formControlName="unit" type="text" ></ion-input>
   </form>
-  <div *ngIf="productForm.controls.price.dirty || productForm.controls.unit.dirty">
+  <div *ngIf="productForm.dirty">
     <button ion-button>Save</button>
-    <button ion-button>Cancel</button>
+    <button ion-button (click)="cancel()">Cancel</button>
   </div>
   <h4>Fournisseur</h4>
   <ion-list *ngIf="product.suppliers.length > 0">
