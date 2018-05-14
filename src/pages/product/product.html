@@ -10,11 +10,18 @@
 <ion-content padding>
   <h3>{{ product.productName }}</h3>
   <img src="assets/imgs/{{ product.imageFileName }}" /><br />
-  <ion-label stacked>Prix</ion-label>
-  <ion-input type="number" step="0.01" [ngModel]="product.price"></ion-input>
 
-  <ion-label stacked>Unité</ion-label>
-  <ion-input type="text" [ngModel]="product.unit"></ion-input>
+  <form [formGroup]="productForm">
+    <ion-label stacked>Prix</ion-label>
+    <ion-input formControlName="price" type="number" step="0.01" [ngModel]="product.price"></ion-input>
+  
+    <ion-label stacked>Unité</ion-label>
+    <ion-input formControlName="unit" type="text" [ngModel]="product.unit"></ion-input>
+  </form>
+  <div *ngIf="productForm.controls.price.dirty || productForm.controls.unit.dirty">
+    <button ion-button>Save</button>
+    <button ion-button>Cancel</button>
+  </div>
   <h4>Fournisseur</h4>
   <ion-list *ngIf="product.suppliers.length > 0">
     <ion-item *ngFor="let supplier of product.suppliers">
