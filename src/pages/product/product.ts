@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { Product } from '../../models/product';
-import { Validators, FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'page-product',
@@ -12,7 +12,7 @@ export class ProductPage {
   product: Product
   productForm: FormGroup
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, private toastCtrl: ToastController) {
     this.product = navParams.get('product')
     this.initForm()
   }
@@ -29,6 +29,9 @@ export class ProductPage {
   }
 
   ionViewCanLeave() {
+    if (this.productForm.dirty) {
+      this.presentToast()
+    }
     return !this.productForm.dirty
   }
 
@@ -38,5 +41,14 @@ export class ProductPage {
       unit: [this.product.unit],
       stock: [this.product.stock]
     });
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Vous devez enregistrer ou annuler les modifications en cours.',
+      duration: 3000,
+    });
+
+    toast.present()
   }
 }
