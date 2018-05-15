@@ -11,6 +11,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataProvider } from '../providers/data/data';
 import { HttpClientModule } from '@angular/common/http';
+import { Http } from '@angular/http'
+import { SQLitePorter } from '@ionic-native/sqlite-porter';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    Http,
+    SQLite,
+    SQLiteObject,
+    SQLitePorter
   ],
   bootstrap: [IonicApp],
   entryComponents: [

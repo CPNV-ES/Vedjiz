@@ -1,0 +1,22 @@
+PRAGMA foreign_keys=OFF;
+CREATE TABLE IF NOT EXISTS products(
+id INTEGER PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+unit VARCHAR(255) NOT NULL,
+stock DECIMAL(4,2) NOT NULL,
+image_path VARCHAR(255) NOT NULL,
+price DECIMAL(4,2));
+CREATE TABLE IF NOT EXISTS suppliers(
+id INTEGER PRIMARY KEY,
+company_name VARCHAR(255) NOT NULL,
+firstname VARCHAR(255) NOT NULL,
+lastname VARCHAR(255) NOT NULL,
+phone VARCHAR(255) NOT NULL,
+address VARCHAR(255) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS product_supplier(
+product_id INTEGER NOT NULL,
+supplier_id INTEGER NOT NULL,
+FOREIGN KEY(product_id) REFERENCES products(id),
+FOREIGN KEY(supplier_id) REFERENCES suppliers(id)
+);
