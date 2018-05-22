@@ -58,9 +58,9 @@ export class DataProvider {
     return new Promise((resolve, reject) => {
       this.db.executeSql(query, [])
       .then((data) => {
-        
+        resolve(JSON.stringify(data))
       }, (error) => {
-
+        reject(JSON.stringify(error))
       })
     })
   }
@@ -70,9 +70,9 @@ export class DataProvider {
     return new Promise((resolve, reject) => {
       this.db.executeSql(query, [])
         .then((data) => {
-          return resolve(JSON.stringify(data))
+          resolve(JSON.stringify(data))
         }, (error) => {
-          return reject(JSON.stringify(error))
+          reject(JSON.stringify(error))
         })
     })
   }
