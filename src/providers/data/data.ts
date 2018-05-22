@@ -35,13 +35,13 @@ export class DataProvider {
 
   public connectToDB() {
     return new Promise((resolve, reject) => {
-      if (this.isOpen == true) {
+      if (this.isOpen) {
         resolve(this.isOpen)
       } else {
         this.sqlite.create(this.options)
         .then((db: SQLiteObject) => {
           this.db = db
-          this.http.get('assets/database.sql').map(res => res.text()).subscribe(sql => {
+          this.http.get('assets/db/database.sql').map(res => res.text()).subscribe(sql => {
             this.sqlitePorter.importSqlToDb(this.db, sql).then(data => {
               this.isOpen = true
               resolve(this.isOpen)
@@ -53,10 +53,19 @@ export class DataProvider {
   }
 
   getProducts() {
-    return this.products
+    let query = 'SELECT * FROM products'
+
+    return new Promise((resolve, reject) => {
+      this.db.executeSql(query, [])
+      .then((data) => {
+        
+      }, (error) => {
+
+      })
+    })
   }
 
-  private seed() {
+  public seed() {
     let query: string = 'INSERT INTO `products` (name, unit, stock, image_path, price) VALUES ("Carotte", "kg", 6, "carots.jpg", 19.50); INSERT INTO `products` (name, unit, stock, image_path, price) VALUES ("Brocoli", "kg", 11, "Broccoli.jpg", 25.50); INSERT INTO `products` (name, unit, stock, image_path, price) VALUES ("Asperges", "kg", 8, "asparagus.jpg", 153);'
     return new Promise((resolve, reject) => {
       this.db.executeSql(query, [])

@@ -10,10 +10,9 @@ import { ProductPage } from '../pages/product/product';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataProvider } from '../providers/data/data';
-import { HttpClientModule } from '@angular/common/http';
-import { Http } from '@angular/http'
-import { SQLitePorter } from '@ionic-native/sqlite-porter';
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { HttpModule } from '@angular/http';
+import  { SQLite } from '@ionic-native/sqlite'
+import { SQLitePorter } from '@ionic-native/sqlite-porter'
 
 @NgModule({
   declarations: [
@@ -25,11 +24,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpClientModule,
-    Http,
-    SQLite,
-    SQLiteObject,
-    SQLitePorter
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,7 +37,9 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DataProvider
+    DataProvider,
+    SQLite,
+    SQLitePorter
   ]
 })
 export class AppModule {}

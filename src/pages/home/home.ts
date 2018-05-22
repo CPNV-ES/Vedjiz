@@ -13,7 +13,11 @@ export class HomePage {
   products: Array<Product>
 
   constructor(public navCtrl: NavController, private dataProvider: DataProvider) {
-    this.products = dataProvider.getProducts()
+    // this.products = dataProvider.getProducts()
+    dataProvider.connectToDB()
+    .then(() => {
+      dataProvider.seed()
+    })
   }
 
   openProduct(product) {
