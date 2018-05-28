@@ -1,15 +1,18 @@
-/**
- * Created by Xavier on 01.05.18.
- */
-
 import { User } from './User'
 
 export class Supplier extends User {
+  private _name: string
 
-  companyName: string;
+  constructor(id:number, firstName:string, lastName:string, phone:string, address:string, name:string) {
+    super(id, firstName, lastName, phone, address)
+    this.name = name
+  }
 
-  constructor(firstName: string, lastName: string, phone: string, address: string, companyName: string) {
-    super(firstName, lastName, phone, address); // invoke base class's constructor
-    this.companyName = companyName;
+  set name(name:string) {
+    this._name = name
+  }
+
+  get name(): string {
+    return this._name
   }
 }
