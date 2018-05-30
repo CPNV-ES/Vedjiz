@@ -8,21 +8,18 @@
 
 <ion-content padding>
   <h4>{{ product.productName }}</h4>
-  <img src="{{ product.image64 }}"><br>
-  <div class="row">
-    <div class="col">
-      <ion-label>Prix</ion-label>
-    </div>
-    <div class="col">
-      <ion-input type="text" [(ngModel)]="product.price"></ion-input>
-    </div>
-    <div class="col">
-      <ion-label>par</ion-label>
-    </div>
-    <div class="col">
-      <ion-input type="text" [(ngModel)]="product.unit"></ion-input>
-    </div>
+  <div style="text-align: center">
+    <img src="{{ product.image64 }}" width="60%" height="60%" text-center>
   </div>
+  <ion-grid>
+    <ion-row margin="5px">
+      Prix: {{ product.price }} par {{ product.unit }}
+    </ion-row>
+    <ion-row margin="5px">
+      <ion-label>{{ product.unit }} disponible(s):</ion-label><ion-input type="text" [(ngModel)]="product.stock" (change)="dataChange()" float-right></ion-input>
+    </ion-row>
+  </ion-grid>
+  <hr>
   <div *ngIf="product.suppliers.length > 0">
     <h4>Fournisseurs</h4>
     <ion-list>
