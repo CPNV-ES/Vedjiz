@@ -16,20 +16,18 @@ import {Product} from "../../models/Product";
 })
 export class VegetabledetailsPage {
 
-  product: Product; // for show
-  original: Product; // for comparison
-  dataIsDirty: boolean; // Some data has changed
-  status: string;
+  product: Product // for show
+  original: Product // for comparison
+  status: string
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
-    this.original = navParams.get("product");
+    this.original = navParams.get("product")
     this.product = Object.assign(Product, this.original); // Work on a clone
-    this.dataIsDirty = false;
   }
 
   ionViewCanLeave() {
 
-    if (!this.dataIsDirty) return true; // no change: bye
+    if (this.original.equalsProduct(this.product)) return true; // no change: bye
 
     let toast = this.toastCtrl.create({
       message: "Il faut d'abord enregistrer ou abandonner vos changements",
@@ -39,18 +37,19 @@ export class VegetabledetailsPage {
     return false;
   }
 
+  // used to display/hide buttons
   dataChange() {
-    this.dataIsDirty = !this.original.equalsProduct(this.product)
+    this.product.isDirty = !this.original.equalsProduct(this.product)
   }
 
   save() {
     Object.assign(this.original,this.product) // Copy displayed values to store
-    this.dataIsDirty = false
+    this.product.isDirty = true
   }
 
   abort() {
     Object.assign(this.product,this.original) // Copy stored values to display
-    this.dataIsDirty = false
+    this.product.isDirty = false
   }
 
 }
