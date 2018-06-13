@@ -15,7 +15,7 @@ export class HomePage {
   private dataProvider: DataProvider
 
   constructor(public navCtrl: NavController, private storage: Storage, httpClient: HttpClient, public toastCtrl: ToastController) {
-    this.dataProvider = new DataProvider(storage, httpClient)
+    this.dataProvider = new DataProvider(storage, httpClient, toastCtrl)
   }
 
   public viewDetails(product) {
@@ -26,5 +26,14 @@ export class HomePage {
   public touch(){
     this.dataProvider.lastUpdate = "2018-03-01 10:00:00"
     this.storage.set('lastupdate', "2018-03-01 10:00:00")
+  }
+
+  public doRefresh(refresher) {
+    this.dataProvider.refresh().then(() => {
+      refresher.complete()
+    }).catch(err => {
+      this.toastCtrl.create({message: err, duration:2000, cssClass:'toastMessage'}).present()
+      refresher.complete()
+    })
   }
 }

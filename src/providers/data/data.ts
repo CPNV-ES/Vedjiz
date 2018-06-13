@@ -2,6 +2,8 @@ import {Storage} from '@ionic/storage';
 import {Product} from "../../models/Product";
 import {HttpClient} from '@angular/common/http';
 import {Supplier} from "../../models/Supplier";
+import {Timestamp} from "../../models/Timestamp";
+import {ToastController} from "ionic-angular";
 
 /*
  Generated class for the DataProvider provider.
@@ -18,9 +20,11 @@ export class DataProvider {
   public products: Product[]
   private storage: Storage
   private httpClient: HttpClient
+  private toastCtrl: ToastController
 
-  constructor(storage: Storage, httpClient: HttpClient) {
+  constructor(storage: Storage, httpClient: HttpClient, toastCtrl: ToastController) {
     this.storage = storage
+    this.toastCtrl = toastCtrl
     this.httpClient = httpClient
     this.products = []
     this.storage.get('lastupdate').then((data) => {
@@ -33,14 +37,15 @@ export class DataProvider {
         this.httpClient.get(this.apiURL+"/lastupdate")
           .subscribe(
             data => { // API is responding, let's do it
-              if (data.updated_at > this.lastUpdate) {  // things have changed on the server side since our last sync
+              var ts:Timestamp = data as Timestamp
+              if (ts.updated_at > this.lastUpdate) {  // things have changed on the server side since our last sync
                 this.buildFromAPI()
               }
               else
-                console.log('No readback required')
+                this.toastCtrl.create({message: 'Vos données sont à jour', duration:2000, cssClass:'toastMessage'}).present()
             },
             err => {
-              console.log(err)
+              this.toastCtrl.create({message: 'Pas de réponse du serveur', duration:2000, cssClass:'toastMessage'}).present()
             }
           )
       })
@@ -60,16 +65,31 @@ export class DataProvider {
     return this.storage.set('lastupdate', FormattedDate)
   }
 
+  public refresh() {
+    return new Promise((resolve,reject) => {
+      var clean = true
+      this.products.forEach(product => {
+        if (product.isDirty) clean = false
+      })
+      if (clean)
+        resolve(this.buildFromAPI())
+      else
+        reject("Vous avez des changements locaux")
+    })
+  }
+
   private buildFromAPI() {
     console.log('buildFromAPI')
-    this.httpClient.get(this.apiURL+"/vegetables")
+    return this.httpClient.get(this.apiURL+"/vegetables")
       .subscribe(
         data => {
           this.storage.set('products', data)
           this.touch() // data has been updated
           this.buildFromJSON(data)
+          this.toastCtrl.create({message: 'Données rechargées', duration:2000, cssClass:'toastMessage'}).present()
         },
         err => {
+          this.toastCtrl.create({message: 'Pas de réponse du serveur', duration:2000, cssClass:'toastMessage'}).present()
           console.log(err)
         }
       )
