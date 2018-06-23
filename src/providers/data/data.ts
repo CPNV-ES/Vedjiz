@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Supplier} from "../../models/Supplier";
 import {Timestamp} from "../../models/Timestamp";
 import {ToastController} from "ionic-angular";
+import {Injectable} from "@angular/core";
 
 /*
  Generated class for the DataProvider provider.
@@ -14,7 +15,7 @@ import {ToastController} from "ionic-angular";
 
 export class DataProvider {
 
-  private apiURL: string = "http://vedjserver.mycpnv.ch/api/v1"
+  public static apiURL: string = "http://vedjserver.mycpnv.ch/api/v1"
 
   public lastUpdate: string
   public products: Product[]
@@ -22,32 +23,50 @@ export class DataProvider {
   private httpClient: HttpClient
   private toastCtrl: ToastController
 
-  constructor(storage: Storage, httpClient: HttpClient, toastCtrl: ToastController) {
+  constructor (storage: Storage, httpClient: HttpClient, toastCtrl: ToastController,lazy: boolean) {
     this.storage = storage
     this.toastCtrl = toastCtrl
     this.httpClient = httpClient
     this.products = []
-    this.storage.get('lastupdate').then((data) => {
-      this.lastUpdate = data
-      this.storage.get('products').then((prods) => {
-        if (prods != null)
-          this.buildFromJSON(prods)
+    if (!lazy) this.load() // eager mode: we load data right away
+  }
 
-        // Check if backend is newer
-        this.httpClient.get(this.apiURL+"/lastupdate")
-          .subscribe(
-            data => { // API is responding, let's do it
-              var ts:Timestamp = data as Timestamp
-              if (ts.updated_at > this.lastUpdate) {  // things have changed on the server side since our last sync
-                this.buildFromAPI()
+  public load() {
+    return new Promise((resolve,reject) => {
+      this.storage.get('lastupdate').then((data) => {
+        this.lastUpdate = data
+        this.storage.get('products').then((prods) => {
+          if (prods != null)
+            this.buildFromJSON(prods)
+
+          // Check if backend is newer
+          this.httpClient.get(DataProvider.apiURL + "/lastupdate")
+            .subscribe(
+              data => { // API is responding, let's do it
+                var ts: Timestamp = data as Timestamp
+                if (ts.updated_at > this.lastUpdate) {  // things have changed on the server side since our last sync
+                  this.buildFromAPI()
+                  resolve('Loaded from API')
+                }
+                else {
+                  this.toastCtrl.create({
+                    message: 'Vos données sont à jour',
+                    duration: 2000,
+                    cssClass: 'toastMessage'
+                  }).present()
+                  resolve('Storage up-to-date')
+                }
+              },
+              err => {
+                this.toastCtrl.create({
+                  message: 'Pas de réponse du serveur',
+                  duration: 2000,
+                  cssClass: 'toastMessage'
+                }).present()
+                resolve('Storage up-to-date')
               }
-              else
-                this.toastCtrl.create({message: 'Vos données sont à jour', duration:2000, cssClass:'toastMessage'}).present()
-            },
-            err => {
-              this.toastCtrl.create({message: 'Pas de réponse du serveur', duration:2000, cssClass:'toastMessage'}).present()
-            }
-          )
+            )
+        })
       })
     })
   }
@@ -80,7 +99,7 @@ export class DataProvider {
 
   private buildFromAPI() {
     console.log('buildFromAPI')
-    return this.httpClient.get(this.apiURL+"/vegetables")
+    return this.httpClient.get(DataProvider.apiURL+"/vegetables")
       .subscribe(
         data => {
           this.storage.set('products', data)
@@ -100,7 +119,7 @@ export class DataProvider {
     console.log('buildFromJSON')
     this.products = [] // Empty current list or initialize it
     data.forEach((value) => {
-      var p = new Product(value.id, value.productName, value.price, value.unit, value.stock, value.image64)
+      var p = new Product(value.id, value.productName, value.price, value.unit, value.stock, value.image64, value.isDirty)
       value.suppliers.forEach((sup) => {
         p.addSupplier(new Supplier(sup.firstName, sup.lastName, '', '', sup.companyName))
       })
@@ -108,4 +127,9 @@ export class DataProvider {
     })
   }
 
+  // Stores the content of the memory into the storage
+  public store() {
+    this.storage.set('products',this.products)
+    console.log ('Stored')
+  }
 }

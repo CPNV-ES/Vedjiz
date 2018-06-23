@@ -18,10 +18,12 @@ export class VegetabledetailsPage {
 
   product: Product // for show
   original: Product // for comparison
+  dataProvider: DataProvider // to store changes
   status: string
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
     this.original = navParams.get("product")
+    this.dataProvider = navParams.get("dataProvider")
     this.product = Object.assign(Product, this.original); // Work on a clone
   }
 
@@ -45,6 +47,7 @@ export class VegetabledetailsPage {
   save() {
     Object.assign(this.original,this.product) // Copy displayed values to store
     this.product.isDirty = true
+    this.dataProvider.store()
   }
 
   abort() {

@@ -15,7 +15,7 @@ export class Product {
   isDirty: boolean
 
 
-  constructor(id: number, productName: string, price: number, unit: string, stock: number, image64: string) {
+  constructor(id: number, productName: string, price: number, unit: string, stock: number, image64: string, dirty: boolean) {
     this.id = id
     this.productName = productName
     this.price = price
@@ -23,7 +23,7 @@ export class Product {
     this.stock = stock
     this.image64 = image64
     this.suppliers = [] // must be done to avoid a push on null
-    this.isDirty = false // indicates that changes have been made in the details page
+    this.isDirty = dirty // indicates that changes have been made in the details page
   }
 
   addSupplier(sup: Supplier) {

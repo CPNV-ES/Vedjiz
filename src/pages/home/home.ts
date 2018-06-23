@@ -15,7 +15,7 @@ export class HomePage {
   private dataProvider: DataProvider
 
   constructor(public navCtrl: NavController, private storage: Storage, httpClient: HttpClient, public toastCtrl: ToastController) {
-    this.dataProvider = new DataProvider(storage, httpClient, toastCtrl)
+    this.dataProvider = new DataProvider(storage, httpClient, toastCtrl, false)
   }
 
   public viewDetails(product) {
