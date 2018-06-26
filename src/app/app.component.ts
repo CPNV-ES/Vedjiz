@@ -5,6 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import {SynchroPage} from "../pages/synchro/synchro";
+import { PreferenciesPage } from '../pages/preferencies/preferencies';
+import { OrdersPage } from '../pages/orders/orders';
+import {OrderPage} from "../pages/order/order" 
 @Component({
   templateUrl: 'app.html'
 })
@@ -15,7 +18,9 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}> = [
     {title: 'Home', component: HomePage},
-    {title: 'Synchronisation', component:SynchroPage}
+    {title: 'Synchronisation', component:SynchroPage},
+    {title: 'Préférences', component:PreferenciesPage},
+    {title: 'Commandes', component:OrdersPage}
   ]
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {

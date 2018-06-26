@@ -11,13 +11,19 @@ import {VegetabledetailsPage} from "../pages/vegetabledetails/vegetabledetails";
 import {IonicStorageModule} from "@ionic/storage";
 import {DataProvider} from "../providers/data/data";
 import {SynchroPage} from "../pages/synchro/synchro";
+import { PreferenciesPage } from '../pages/preferencies/preferencies';
+import { OrderPage } from '../pages/order/order';
+import { OrdersPage } from '../pages/orders/orders';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     VegetabledetailsPage,
-    SynchroPage
+    SynchroPage,
+    PreferenciesPage,
+    OrderPage,
+    OrdersPage 
   ],
   imports: [
     HttpClientModule,
@@ -30,7 +36,10 @@ import {SynchroPage} from "../pages/synchro/synchro";
     MyApp,
     HomePage,
     VegetabledetailsPage,
-    SynchroPage
+    SynchroPage,
+    PreferenciesPage,
+    OrderPage,
+    OrdersPage
   ],
   providers: [
     StatusBar,

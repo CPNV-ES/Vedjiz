@@ -5,6 +5,7 @@ import {Supplier} from "../../models/Supplier";
 import {Timestamp} from "../../models/Timestamp";
 import {ToastController} from "ionic-angular";
 import {Injectable} from "@angular/core";
+import { Order } from '../../models/Order';
 
 /*
  Generated class for the DataProvider provider.
@@ -19,6 +20,7 @@ export class DataProvider {
 
   public lastUpdate: string
   public products: Product[]
+  public orders: Order[]
   private storage: Storage
   private httpClient: HttpClient
   private toastCtrl: ToastController
@@ -28,8 +30,23 @@ export class DataProvider {
     this.toastCtrl = toastCtrl
     this.httpClient = httpClient
     this.products = []
+    this.orders = []
     if (!lazy) this.load() // eager mode: we load data right away
   }
+
+  public getOrders() {
+    this.httpClient.get(DataProvider.apiURL + "/orders")
+            .subscribe(
+              data => {
+                data.forEach(element => {
+                  // No enough time
+                });
+                
+              },
+              err => {
+              })
+  }
+
 
   public load() {
     return new Promise((resolve,reject) => {
@@ -98,7 +115,7 @@ export class DataProvider {
   }
 
   private buildFromAPI() {
-    console.log('buildFromAPI')
+    console.log('buildFromAPI') 
     return this.httpClient.get(DataProvider.apiURL+"/vegetables")
       .subscribe(
         data => {
@@ -119,7 +136,7 @@ export class DataProvider {
     console.log('buildFromJSON')
     this.products = [] // Empty current list or initialize it
     data.forEach((value) => {
-      var p = new Product(value.id, value.productName, value.price, value.unit, value.stock, value.image64, value.isDirty)
+      var p = new Product(value.id, value.productName, value.price, value.unit, value.stock, value.low_stock_threshold, value.image64, value.isDirty)
       value.suppliers.forEach((sup) => {
         p.addSupplier(new Supplier(sup.firstName, sup.lastName, '', '', sup.companyName))
       })

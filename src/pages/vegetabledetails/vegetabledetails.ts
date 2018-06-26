@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import {DataProvider} from "../../providers/data/data";
 import {Product} from "../../models/Product";
+import { OrderPage } from '../order/order';
 /**
  * Generated class for the VegetabledetailsPage page.
  *
@@ -53,6 +54,10 @@ export class VegetabledetailsPage {
   abort() {
     Object.assign(this.product,this.original) // Copy stored values to display
     this.product.isDirty = false
+  }
+
+  placeOrder() {
+    this.navCtrl.push(OrderPage, {product: this.product})
   }
 
 }

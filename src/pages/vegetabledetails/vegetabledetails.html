@@ -6,6 +6,7 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
   <h4>{{ product.productName }}</h4>
   <div style="text-align: center">
@@ -17,6 +18,9 @@
     </ion-row>
     <ion-row margin="5px">
       <ion-label>{{ product.unit }} disponible(s):</ion-label><ion-input type="text" [(ngModel)]="product.stock" (change)="dataChange()" float-right></ion-input>
+      <div *ngIf="product.stock <= product.low_stock_threshold">
+        <ion-icon name="alert"></ion-icon> Attention stock bas ! <ion-icon name="alert"></ion-icon> <button ion-button color="light" round center (click)="placeOrder()">Placer une commande</button>
+      </div>
     </ion-row>
   </ion-grid>
   <div text-center *ngIf="!original.equalsProduct(product)">

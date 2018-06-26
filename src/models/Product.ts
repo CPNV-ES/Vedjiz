@@ -7,20 +7,22 @@ export class Product {
 
   id: number
   productName: string
-  price: number           // this is the price by unit
-  unit: string            // typically: kg, piece, 100g
-  stock: number           // number of units
-  image64: string         // base64 encoded image
-  suppliers: Supplier[]   // Who's providing the stuff
+  price: number               // this is the price by unit
+  unit: string                // typically: kg, piece, 100g
+  stock: number               // number of units
+  low_stock_threshold: number // minimum stock value
+  image64: string             // base64 encoded image
+  suppliers: Supplier[]       // Who's providing the stuff
   isDirty: boolean
 
 
-  constructor(id: number, productName: string, price: number, unit: string, stock: number, image64: string, dirty: boolean) {
+  constructor(id: number, productName: string, price: number, unit: string, stock: number, low_stock_threshold: number, image64: string, dirty: boolean) {
     this.id = id
     this.productName = productName
     this.price = price
     this.unit = unit
     this.stock = stock
+    this.low_stock_threshold = low_stock_threshold
     this.image64 = image64
     this.suppliers = [] // must be done to avoid a push on null
     this.isDirty = dirty // indicates that changes have been made in the details page
